@@ -332,7 +332,68 @@ route.post('/verify', verifyToken, async (req, res) => {
             message: error.message
         });
     }
-})
+});
+
+route.post('/unverify', verifyToken, async (req, res) => {
+    try {
+        let {id, reason} = req.body;
+
+        let {role} = req.decoded.data;
+
+        if(parseInt(role) != 1) {
+            return res.json({
+                status: false,
+                message: 'Chỉ có Admin mới có quyền unverify bài viết này!'
+            });
+        }
+
+        if(id == '' || id == undefined) {
+            return res.json({
+                status: false,
+                message: 'ID không được thiếu!'
+            });
+        }
+
+        if(reason == '' || reason == undefined) {
+            return res.json({
+                status: false,
+                message: 'Lý do không được thiếu!'
+            });
+        }
+
+
+        let bindParams = [id, reason];
+
+        let {result} = await exequery('UNVERIFY_HOME', bindParams);
+
+        if(result == undefined) {
+            return res.json({
+                status: false,
+                message: 'Error'
+            });
+        }
+
+        let {p_err_code, p_err_desc} = result.rows[0];
+
+        if(p_err_code == 0) {
+            return res.json({
+                status: true,
+                message: 'Hủy xác thực bài đăng thành công!'
+            });
+        }
+        else {
+            return res.json({
+                status: false,
+                message: p_err_desc
+            });
+        }
+    } catch (error) {
+        return res.json({
+            status: false,
+            message: error.message
+        });
+    }
+});
 
 route.post('/detail', async (req, res) => {
     try {

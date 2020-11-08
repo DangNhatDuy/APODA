@@ -11,13 +11,88 @@ const pool = new Pool({
 
 function getfunc(key, bindParams){
     switch(key) {
-        
-        case 'LOGIN':{
-            let nameFunc = 'func_login';
+        //view
+        case 'CITY':{
+            let nameFunc = 'v_list_city';
 
             let cmd = getQuery(nameFunc, bindParams);
-            
+
             console.log(cmd);
+            
+            return cmd;
+        }
+        case 'DISTRICT':{
+            let nameFunc = 'v_list_district';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'WARD':{
+            let nameFunc = 'v_list_ward';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'LIST_HOME':{
+            let nameFunc = 'view_list_home';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'LIST_HOME_ACTIVE':{
+            let nameFunc = 'view_list_home_active';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'LIST_HOME_REPORTED':{
+            let nameFunc = 'view_list_home_reported';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'LIST_USER':{
+            let nameFunc = 'view_list_user';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        //function
+        //process info
+        case 'APPOINTMENT':{
+            let nameFunc = 'prc_process_appointment_info';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'FAVOURITE':{
+            let nameFunc = 'prc_process_favourite_info';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
             return cmd;
         }
         case 'USER':{
@@ -27,6 +102,51 @@ function getfunc(key, bindParams){
 
             console.log(cmd);
             
+            return cmd;
+        }
+        case 'HOME':{
+            let nameFunc = 'prc_process_home_info';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'RATING':{
+            let nameFunc = 'prc_process_rating_info';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'REPORT':{
+            let nameFunc = 'prc_process_report_info';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'ROOM':{
+            let nameFunc = 'prc_process_room_info';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        //others
+        case 'LOGIN':{
+            let nameFunc = 'func_login';
+
+            let cmd = getQuery(nameFunc, bindParams);
+            
+            console.log(cmd);
             return cmd;
         }
         case 'USER_INFO':{
@@ -56,8 +176,8 @@ function getfunc(key, bindParams){
             
             return cmd;
         }
-        case 'HOME_RESERVATION':{
-            let nameFunc = 'function_get_home_from_reservation';
+        case 'HOME_APPOINTMENT':{
+            let nameFunc = 'function_get_home_from_appointment';
 
             let cmd = getQuery(nameFunc, bindParams);
 
@@ -65,8 +185,8 @@ function getfunc(key, bindParams){
             
             return cmd;
         }
-        case 'ROOM_RESERVATION':{
-            let nameFunc = 'function_get_room_from_reservation';
+        case 'ROOM_APPOINTMENT':{
+            let nameFunc = 'function_get_room_from_appointment';
 
             let cmd = getQuery(nameFunc, bindParams);
 
@@ -83,35 +203,8 @@ function getfunc(key, bindParams){
             
             return cmd;
         }
-        case 'LIST_USER':{
-            let nameFunc = 'view_list_user';
-
-            let cmd = getQuery(nameFunc, bindParams);
-
-            console.log(cmd);
-            
-            return cmd;
-        }
-        case 'HOME':{
-            let nameFunc = 'prc_process_home_info';
-
-            let cmd = getQuery(nameFunc, bindParams);
-
-            console.log(cmd);
-            
-            return cmd;
-        }
-        case 'LIST_HOME':{
-            let nameFunc = 'view_list_home';
-
-            let cmd = getQuery(nameFunc, bindParams);
-
-            console.log(cmd);
-            
-            return cmd;
-        }
-        case 'LIST_HOME_ACTIVE':{
-            let nameFunc = 'view_list_home_active';
+        case 'HOME_FAVOURITE':{
+            let nameFunc = 'function_get_home_from_favourite';
 
             let cmd = getQuery(nameFunc, bindParams);
 
@@ -121,6 +214,15 @@ function getfunc(key, bindParams){
         }
         case 'VERIFY_HOME':{
             let nameFunc = 'func_verify_home';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'UNVERIFY_HOME':{
+            let nameFunc = 'func_unverify_home';
 
             let cmd = getQuery(nameFunc, bindParams);
 
@@ -146,8 +248,8 @@ function getfunc(key, bindParams){
             
             return cmd;
         }
-        case 'RATING':{
-            let nameFunc = 'prc_process_rating_info';
+        case 'APPOINTMENT_INFO':{
+            let nameFunc = 'function_get_appointment_info';
 
             let cmd = getQuery(nameFunc, bindParams);
 
@@ -156,7 +258,7 @@ function getfunc(key, bindParams){
             return cmd;
         }
         case 'SEARCH':{
-            let nameFunc = 'function_search_home';
+            let nameFunc = 'function_search';
 
             let cmd = getQuery(nameFunc, bindParams);
 
@@ -166,15 +268,6 @@ function getfunc(key, bindParams){
         }
         case 'LIST_ROOM':{
             let nameFunc = 'function_get_list_room';
-
-            let cmd = getQuery(nameFunc, bindParams);
-
-            console.log(cmd);
-            
-            return cmd;
-        }
-        case 'ROOM':{
-            let nameFunc = 'prc_process_room_info';
 
             let cmd = getQuery(nameFunc, bindParams);
 
@@ -193,51 +286,6 @@ function getfunc(key, bindParams){
         }
         case 'ROOM_STATUS':{
             let nameFunc = 'func_update_room_status';
-
-            let cmd = getQuery(nameFunc, bindParams);
-
-            console.log(cmd);
-            
-            return cmd;
-        }
-        case 'RESERVATION':{
-            let nameFunc = 'prc_process_reservation_info';
-
-            let cmd = getQuery(nameFunc, bindParams);
-
-            console.log(cmd);
-            
-            return cmd;
-        }
-        case 'RESERVATION_INFO':{
-            let nameFunc = 'function_get_reservation_info';
-
-            let cmd = getQuery(nameFunc, bindParams);
-
-            console.log(cmd);
-            
-            return cmd;
-        }
-        case 'CITY':{
-            let nameFunc = 'v_list_city';
-
-            let cmd = getQuery(nameFunc, bindParams);
-
-            console.log(cmd);
-            
-            return cmd;
-        }
-        case 'DISTRICT':{
-            let nameFunc = 'v_list_district';
-
-            let cmd = getQuery(nameFunc, bindParams);
-
-            console.log(cmd);
-            
-            return cmd;
-        }
-        case 'WARD':{
-            let nameFunc = 'v_list_ward';
 
             let cmd = getQuery(nameFunc, bindParams);
 

@@ -6,6 +6,7 @@ const {signPromise, verifyPromise} = require('./../utils/jwt');
 const { verifyToken } = require('../middleware/checkToken');
 const upload = require('./../utils/multer.config');
 
+//đăng nhập
 route.post('/login', async (req, res) => {
     try {
         let {email, password} = req.body;
@@ -97,6 +98,7 @@ route.post('/login', async (req, res) => {
     }
 });
 
+//đăng ký
 route.post('/register', async (req, res) => {
     try {
         let {email, password, name, phone, idrole} = req.body;
@@ -181,6 +183,7 @@ route.post('/register', async (req, res) => {
     }
 });
 
+//get user info
 route.post('/info', verifyToken, async (req, res) => {
     try {
         let {id} = req.decoded.data;
@@ -211,68 +214,7 @@ route.post('/info', verifyToken, async (req, res) => {
     }
 });
 
-route.post('/update', verifyToken, async (req, res) => {
-    try {
-        let {id} = req.decoded.data;
-        let {name, phone} = req.body;
-
-        if(name == '' || name == undefined) {
-            return res.json({
-                status: false,
-                message: 'Tên không được thiếu!'
-            });
-        }
-
-        if(phone == '' || phone == undefined) {
-            return res.json({
-                status: false,
-                message: 'Số điện thoại không được thiếu!'
-            });
-        }
-
-        let bindParams = [
-            id,
-            '',
-            '',
-            name,
-            phone,
-            '',
-            -1,
-            -1,
-            'EDIT'
-        ];
-
-        let {result} = await exequery('USER', bindParams);
-
-        if(result == undefined) {
-            return res.json({
-                status: false,
-                message: 'Error'
-            });
-        }
-
-        let {p_err_code, p_err_desc} = result.rows[0];
-
-        if(p_err_code == 0) {
-            return res.json({
-                status: true,
-                message: 'Thay đổi thông tin thành công!'
-            })
-        }
-        else {
-            return res.json({
-                status: false,
-                message: p_err_desc
-            })
-        }
-    } catch (error) {
-        return res.json({
-            status: false,
-            message: error.message
-        });
-    }
-});
-
+//thay đổi thông tin
 route.post('/upload', verifyToken, upload.array('image', 1), async (req, res) => {
     try {
         let imageName = req.files[0].filename;
@@ -343,7 +285,8 @@ route.post('/upload', verifyToken, upload.array('image', 1), async (req, res) =>
     }
 });
 
-route.post('/home-reservation', verifyToken, async (req, res) => {
+//xem ds nhà đã hẹn
+route.post('/home-appointment', verifyToken, async (req, res) => {
     try {
         let {id} = req.decoded.data;
 
@@ -351,7 +294,7 @@ route.post('/home-reservation', verifyToken, async (req, res) => {
             id
         ];
 
-        let {result} = await exequery('HOME_RESERVATION', bindParams);
+        let {result} = await exequery('HOME_APPOINTMENT', bindParams);
 
         if(result == undefined) {
             return res.json({
@@ -373,7 +316,8 @@ route.post('/home-reservation', verifyToken, async (req, res) => {
     }
 });
 
-route.post('/room-reservation', verifyToken, async (req, res) => {
+//xem ds phòng đã hẹn
+route.post('/room-appointment', verifyToken, async (req, res) => {
     try {
         let {id} = req.decoded.data;
         let {idhome} = req.body;
@@ -383,7 +327,7 @@ route.post('/room-reservation', verifyToken, async (req, res) => {
             idhome
         ];
 
-        let {result} = await exequery('ROOM_RESERVATION', bindParams);
+        let {result} = await exequery('ROOM_APPOINTMENT', bindParams);
 
         if(result == undefined) {
             return res.json({
@@ -405,6 +349,7 @@ route.post('/room-reservation', verifyToken, async (req, res) => {
     }
 });
 
+//đổi mật khẩu
 route.post('/change-password', verifyToken, async (req, res) => {
     try {
         let {id} = req.decoded.data;
@@ -496,6 +441,7 @@ route.post('/change-password', verifyToken, async (req, res) => {
     }
 });
 
+//xem ds nhà của tôi
 route.post('/my-home', verifyToken, async (req, res) => {
     try {
         let {id} = req.decoded.data;
@@ -526,6 +472,7 @@ route.post('/my-home', verifyToken, async (req, res) => {
     }
 });
 
+//xem ds các user (admin)
 route.get('/list', verifyToken, async (req, res) => {
     try {
         let {role} = req.decoded.data;
@@ -559,7 +506,124 @@ route.get('/list', verifyToken, async (req, res) => {
             message: error.message
         });
     }
-})
+});
+
+//thêm quan tâm khu vực
+route.post('/add-favourite', verifyToken, async (req, res) => {
+    try {
+        let {id} = req.decoded.data;
+        let {iddistrict} = req.body;
+
+        let bindParams = [
+            id,
+            iddistrict,
+            'ADD'
+        ];
+
+        let {result} = await exequery('FAVOURITE', bindParams);
+
+        if(result == undefined) {
+            return res.json({
+                status: false,
+                message: 'Error'
+            });
+        }
+
+        let {p_err_code, p_err_desc} = result.rows[0];
+
+        if(p_err_code == 0) {
+            return res.json({
+                status: true,
+                message: 'Thêm khu vực quan tâm thành công!'
+            })
+        }
+        else {
+            return res.json({
+                status: false,
+                message: p_err_desc
+            })
+        }
+    } catch (error) {
+        return res.json({
+            status: false,
+            message: error.message
+        });
+    }
+});
+
+//xóa quan tâm khu vực
+route.post('/delete-favourite', verifyToken, async (req, res) => {
+    try {
+        let {id} = req.decoded.data;
+        let {iddistrict} = req.body;
+
+        let bindParams = [
+            id,
+            iddistrict,
+            'DEL'
+        ];
+
+        let {result} = await exequery('FAVOURITE', bindParams);
+
+        if(result == undefined) {
+            return res.json({
+                status: false,
+                message: 'Error'
+            });
+        }
+
+        let {p_err_code, p_err_desc} = result.rows[0];
+
+        if(p_err_code == 0) {
+            return res.json({
+                status: true,
+                message: 'Xóa khu vực quan tâm thành công!'
+            })
+        }
+        else {
+            return res.json({
+                status: false,
+                message: p_err_desc
+            })
+        }
+    } catch (error) {
+        return res.json({
+            status: false,
+            message: error.message
+        });
+    }
+});
+
+//ds nhà trong khu vực quan tâm
+route.post('/home-favourite', verifyToken, async (req, res) => {
+    try {
+        let {id} = req.decoded.data;
+
+        let bindParams = [
+            id
+        ];
+
+        let {result} = await exequery('HOME_FAVOURITE', bindParams);
+
+        if(result == undefined) {
+            return res.json({
+                status: false,
+                message: 'Error'
+            });
+        }
+
+        return res.json({
+            status: true,
+            message: '',
+            data: result.rows
+        });
+    } catch (error) {
+        return res.json({
+            status: false,
+            message: error.message
+        });
+    }
+});
 
 
 exports.USER_ROUTER = route;
