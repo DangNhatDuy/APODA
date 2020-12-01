@@ -96,7 +96,7 @@ function getfunc(key, bindParams){
             return cmd;
         }
         case 'USER':{
-            let nameFunc = 'prc_process_user_info';
+            let nameFunc = 'prc_process_user_info_v2';
 
             let cmd = getQuery(nameFunc, bindParams);
 
@@ -133,6 +133,15 @@ function getfunc(key, bindParams){
         }
         case 'ROOM':{
             let nameFunc = 'prc_process_room_info';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
+        case 'WALLET':{
+            let nameFunc = 'prc_process_wallet_info';
 
             let cmd = getQuery(nameFunc, bindParams);
 
@@ -257,6 +266,15 @@ function getfunc(key, bindParams){
             
             return cmd;
         }
+        case 'APPOINTMENT_INFO_FOR_USER':{
+            let nameFunc = 'function_get_appointment_info_for_user';
+
+            let cmd = getQuery(nameFunc, bindParams);
+
+            console.log(cmd);
+            
+            return cmd;
+        }
         case 'SEARCH':{
             let nameFunc = 'function_search';
 
@@ -293,8 +311,8 @@ function getfunc(key, bindParams){
             
             return cmd;
         }
-        case 'CHECK_EMAIL':{
-            let nameFunc = 'func_forget_password';
+        case 'GET_EMAIL_USER':{
+            let nameFunc = 'function_get_email_user';
 
             let cmd = getQuery(nameFunc, bindParams);
             

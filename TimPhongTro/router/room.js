@@ -308,113 +308,7 @@ route.post('/detail', async (req, res) => {
             message: error.message
         });
     }
-})
-
-route.post('/reservation', verifyToken, async (req, res) => {
-    try {
-        let {id} = req.decoded.data;
-        let {idroom} = req.body;
-
-        if(idroom == '' || idroom == undefined) {
-            return res.json({
-                status: false,
-                message: 'ID phòng không được thiếu!'
-            });
-        }
-
-        let bindParams = [
-            id,
-            idroom,
-            'ADD'
-        ];
-
-        let {result} = await exequery('RESERVATION', bindParams);
-
-        if(result == undefined) {
-            return res.json({
-                status: false,
-                message: 'Error!'
-            });
-        }
-
-        let {p_err_code, p_err_desc} = result.rows[0];
-
-        if(p_err_code == 0) {
-            return res.json({
-                status: true,
-                message: 'Đặt giữ phòng thành công!'
-            });
-        }
-        else {
-            return res.json({
-                status: false,
-                message: p_err_desc
-            });
-        }
-
-    } catch (error) {
-        return res.json({
-            status: false,
-            message: error.message
-        });
-    }
-})
-
-route.post('/reservation/delete', verifyToken, async (req, res) => {
-    try {
-        let {iduser, idroom} = req.body;
-
-        if(iduser == '' || iduser == undefined) {
-            return res.json({
-                status: false,
-                message: 'ID user không được thiếu!'
-            });
-        }
-
-        if(idroom == '' || idroom == undefined) {
-            return res.json({
-                status: false,
-                message: 'ID phòng không được thiếu!'
-            });
-        }
-
-        let bindParams = [
-            iduser,
-            idroom,
-            'DEL'
-        ];
-
-        let {result} = await exequery('RESERVATION', bindParams);
-
-        if(result == undefined) {
-            return res.json({
-                status: false,
-                message: 'Error!'
-            });
-        }
-
-        let {p_err_code, p_err_desc} = result.rows[0];
-
-        if(p_err_code == 0) {
-            return res.json({
-                status: true,
-                message: 'Xóa giữ phòng thành công!'
-            });
-        }
-        else {
-            return res.json({
-                status: false,
-                message: p_err_desc
-            });
-        }
-
-    } catch (error) {
-        return res.json({
-            status: false,
-            message: error.message
-        });
-    }
-})
+});
 
 route.post('/change-status', verifyToken, async (req, res) => {
     try {
@@ -471,7 +365,7 @@ route.post('/change-status', verifyToken, async (req, res) => {
     }
 });
 
-route.post('/reservation-info', verifyToken, async (req, res) => {
+route.post('/appointment-info', verifyToken, async (req, res) => {
     try {
         let {id} = req.body;
 
@@ -484,7 +378,7 @@ route.post('/reservation-info', verifyToken, async (req, res) => {
 
         let bindParams = [id];
 
-        let {result} = await exequery('RESERVATION_INFO', bindParams);
+        let {result} = await exequery('APPOINTMENT_INFO', bindParams);
 
         if(result == undefined) {
             return res.json({
@@ -498,6 +392,179 @@ route.post('/reservation-info', verifyToken, async (req, res) => {
             message: '',
             data: result.rows
         });
+
+    } catch (error) {
+        return res.json({
+            status: false,
+            message: error.message
+        });
+    }
+});
+
+route.post('/appointment', verifyToken, async (req, res) => {
+    try {
+        let {id} = req.decoded.data;
+        let {idroom, date} = req.body;
+
+        if(idroom == '' || idroom == undefined) {
+            return res.json({
+                status: false,
+                message: 'ID phòng không được thiếu!'
+            });
+        }
+
+        if(date == '' || date == undefined) {
+            return res.json({
+                status: false,
+                message: 'Ngày không được thiếu!'
+            });
+        }
+
+        let bindParams = [
+            id,
+            idroom,
+            date,
+            'ADD'
+        ];
+
+        let {result} = await exequery('APPOINTMENT', bindParams);
+
+        if(result == undefined) {
+            return res.json({
+                status: false,
+                message: 'Error!'
+            });
+        }
+
+        let {p_err_code, p_err_desc} = result.rows[0];
+
+        if(p_err_code == 0) {
+            return res.json({
+                status: true,
+                message: 'Đặt lịch hẹn xem phòng thành công!'
+            });
+        }
+        else {
+            return res.json({
+                status: false,
+                message: p_err_desc
+            });
+        }
+
+    } catch (error) {
+        return res.json({
+            status: false,
+            message: error.message
+        });
+    }
+});
+
+route.post('/appointment/edit', verifyToken, async (req, res) => {
+    try {
+        let {id} = req.decoded.data;
+        let {idroom, date} = req.body;
+
+        if(idroom == '' || idroom == undefined) {
+            return res.json({
+                status: false,
+                message: 'ID phòng không được thiếu!'
+            });
+        }
+
+        if(date == '' || date == undefined) {
+            return res.json({
+                status: false,
+                message: 'Ngày không được thiếu!'
+            });
+        }
+
+        let bindParams = [
+            id,
+            idroom,
+            date,
+            'EDIT'
+        ];
+
+        let {result} = await exequery('APPOINTMENT', bindParams);
+
+        if(result == undefined) {
+            return res.json({
+                status: false,
+                message: 'Error!'
+            });
+        }
+
+        let {p_err_code, p_err_desc} = result.rows[0];
+
+        if(p_err_code == 0) {
+            return res.json({
+                status: true,
+                message: 'Thay đổi lịch hẹn xem phòng thành công!'
+            });
+        }
+        else {
+            return res.json({
+                status: false,
+                message: p_err_desc
+            });
+        }
+
+    } catch (error) {
+        return res.json({
+            status: false,
+            message: error.message
+        });
+    }
+});
+
+route.post('/appointment/delete', verifyToken, async (req, res) => {
+    try {
+        let {iduser, idroom} = req.body;
+
+        if(iduser == '' || iduser == undefined) {
+            return res.json({
+                status: false,
+                message: 'ID user không được thiếu!'
+            });
+        }
+
+        if(idroom == '' || idroom == undefined) {
+            return res.json({
+                status: false,
+                message: 'ID phòng không được thiếu!'
+            });
+        }
+
+        let bindParams = [
+            iduser,
+            idroom,
+            '2021-01-01 00:00:00',
+            'DEL'
+        ];
+
+        let {result} = await exequery('APPOINTMENT', bindParams);
+
+        if(result == undefined) {
+            return res.json({
+                status: false,
+                message: 'Error!'
+            });
+        }
+
+        let {p_err_code, p_err_desc} = result.rows[0];
+
+        if(p_err_code == 0) {
+            return res.json({
+                status: true,
+                message: 'Xóa lịch hẹn xem phòng thành công!'
+            });
+        }
+        else {
+            return res.json({
+                status: false,
+                message: p_err_desc
+            });
+        }
 
     } catch (error) {
         return res.json({

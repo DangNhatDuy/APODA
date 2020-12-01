@@ -349,6 +349,47 @@ route.post('/room-appointment', verifyToken, async (req, res) => {
     }
 });
 
+//xem chi tiết lịch hẹn
+route.post('/appointment-info', verifyToken, async (req, res) => {
+    try {
+        let {id} = req.decoded.data;
+        let {idroom} = req.body;
+
+        if(idroom == '' || idroom == undefined) {
+            return res.json({
+                status: false,
+                message: 'ID phòng không được thiếu!'
+            });
+        }
+
+        let bindParams = [
+            id,
+            idroom
+        ];
+
+        let {result} = await exequery('APPOINTMENT_INFO_FOR_USER', bindParams);
+
+        if(result == undefined) {
+            return res.json({
+                status: false,
+                message: 'Error'
+            });
+        }
+
+        return res.json({
+            status: true,
+            message: '',
+            data: result.rows[0]
+        });
+    } catch (error) {
+        return res.json({
+            status: false,
+            message: error.message
+        });
+    }
+});
+
+
 //đổi mật khẩu
 route.post('/change-password', verifyToken, async (req, res) => {
     try {
